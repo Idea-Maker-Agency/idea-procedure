@@ -11,6 +11,10 @@ When doing work, it's best to create branches off dev. Naming the branch with ea
 ### Push code often!
 We prefer you push code often. It's better to have more commits than less. The reason is we often have multiple people on a project and need to keep track of progress. I also need information to tell the client with regards to work.
 
+### Use Pull Requests
+When a branch is ready, issue a PR so that team members can review and comment on code.  
+If you see a PR, look over the code and comment "ok" so we know it's ok to merge.
+
 ## Naming
 Use easily understandable names wherever possible. This includes variables, templates, views etc. Avoid using acronyms. Consider the fact that the code may be dormant for a year and then someone returns for bug fixes. Will they understand your code and names?
 
