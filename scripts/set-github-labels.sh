@@ -31,6 +31,6 @@ curl -u $TOKEN:x-oauth-basic --include --request POST --data '{"name":"Low Prior
 curl -u $TOKEN:x-oauth-basic --include --request POST --data '{"name":"Question","color":"d876e3"}' "https://api.github.com/repos/$REPO_USER/$REPO_NAME/labels"
 curl -u $TOKEN:x-oauth-basic --include --request POST --data '{"name":"Shelve","color":"eaeaea"}' "https://api.github.com/repos/$REPO_USER/$REPO_NAME/labels"
 curl -u $TOKEN:x-oauth-basic --include --request POST --data '{"name":"Review","color":"006b75"}' "https://api.github.com/repos/$REPO_USER/$REPO_NAME/labels"
-curl -u $TOKEN:x-oauth-basic --include --request POST --data '{"name":"In Progress","color":"edef7f"}' "https://api.github.com/repos/$REPO_USER/$REPO_NAME/labels"
+curl -u $TOKEN:x-oauth-basic --include --request POST --data '{"name":"In Progress","color":"baf27d"}' "https://api.github.com/repos/$REPO_USER/$REPO_NAME/labels"
 curl -u $TOKEN:x-oauth-basic --include --request POST --data '{"name":"Bug","color":"ffc1f3"}' "https://api.github.com/repos/$REPO_USER/$REPO_NAME/labels"
 curl -u $TOKEN:x-oauth-basic --include --request POST --data '{"name":"Enhancement","color":"a2eeef"}' "https://api.github.com/repos/$REPO_USER/$REPO_NAME/labels"
