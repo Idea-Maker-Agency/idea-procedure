@@ -1,0 +1,15 @@
+[Unit]
+Description= SHORT DESCRIPTION
+
+[Service]
+User=username
+Group=groupname
+WorkingDirectory=/home/ubuntu/project
+ExecStart=PATH_TO_VIRTUALENV/bin/gunicorn -c PATH_TO_GUNICORN_CONF_FILE/gunicorn_conf.py project.wsgi --access-logfile=PATH_FOR_LOGFILE/logs/prod_access.log --error-logfile=PATH_FOR_LOGFILE/logs/prod_error.log
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+Environment=LC_ALL=C.UTF-8
+Environment=LANG=C.UTF-8
+
+[Install]
+WantedBy=multi-user.target

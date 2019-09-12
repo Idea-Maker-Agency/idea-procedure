@@ -1,0 +1,41 @@
+upstream _backend {
+    server 127.0.0.1:8001 fail_timeout=0;
+}
+
+server {
+    server_name EXAMPLE.COM WWW.EXAMPLE.COM;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    location /static/ {
+        root STATIC_DIRECTORY_ROOT;
+    }
+
+    location /media/ {
+        root MEDIA_DIRECTORY_ROOT;
+    }
+
+    # maintenance mode
+    error_page 503 /EXAMPLE-maintenance.html;
+    location = /EXAMPLE-maintenance.html {
+        root /usr/share/nginx/html/;
+    }
+
+    location /.well-known/acme-challenge {
+        proxy_pass PROJECT_SOCKET_FILE_PATH # EXAMPLE: http://unix:/home/ubuntu/project/project.sock;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location / {
+        include proxy_params;
+	# maintenance mode
+        if (-f /usr/share/nginx/html/EXAMPLE-maintenance.html) {
+            return 503;
+        }
+        # normal mode
+        proxy_pass PROJECT_SOCKET_FILE_PATH # EXAMPLE: http://unix:/home/ubuntu/project/project.sock;
+    }
+
+}
