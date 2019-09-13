@@ -41,6 +41,7 @@ deployment.
 web: gunicorn --pythonpath project  project.wsgi
 release: python ./project/manage.py migrate --noinput
 release: python ./project/manage.py collectstatic --no-post-process --noinput
+release: python ./project/manage.py loaddata any_fixtures.json
 ```
 
 ## Step 5: Heroku - Add postgres 
@@ -52,6 +53,7 @@ Go to Add Resources and select Postgres
 ## Step 6: Heroku - Add configuration variables as needed
 Click on Settings and then config vars
 DJANGO_SETTINGS_MODULE - project.setting.heroku_settings
+EMAIL_HOST_PASSWORD - some-password  
 DISABLE_COLLECTSTATIC - 1 (optional)
 
 ## Step 7: Heroku - set buildpack
