@@ -52,9 +52,9 @@ Go to Add Resources and select Postgres
 
 ## Step 6: Heroku - Add configuration variables as needed
 Click on Settings and then config vars  
-DJANGO_SETTINGS_MODULE - project.setting.heroku_settings
-EMAIL_HOST_PASSWORD - some-password  
-DISABLE_COLLECTSTATIC - 1 (Optional. If you do this you need do manually run collectstatic in Step 4)
+DJANGO_SETTINGS_MODULE - project.setting.heroku_settings  
+EMAIL_HOST_PASSWORD - some-password   
+DISABLE_COLLECTSTATIC - 1 (Optional. If you do this you need do manually run collectstatic in Step 4)  
 
 ## Step 7: Heroku - set buildpack
 You need to tell Heroku you are running a python project.
