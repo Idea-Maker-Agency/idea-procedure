@@ -51,7 +51,7 @@ Go to Add Resources and select Postgres
 `DATABASE_URL = postgres://wlkdflsdf:3838.... `
 
 ## Step 6: Heroku - Add configuration variables as needed
-Click on Settings and then config vars
+Click on Settings and then config vars  
 DJANGO_SETTINGS_MODULE - project.setting.heroku_settings
 EMAIL_HOST_PASSWORD - some-password  
 DISABLE_COLLECTSTATIC - 1 (Optional. If you do this you need do manually run collectstatic in Step 4)
