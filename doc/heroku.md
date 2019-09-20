@@ -39,9 +39,9 @@ Heroku will automatically run collectstatic. However, in some cases the post pro
 deployment.
 ```
 web: gunicorn --pythonpath project  project.wsgi
-release: python ./project/manage.py migrate --noinput
-release: python ./project/manage.py collectstatic --no-post-process --noinput
-release: python ./project/manage.py loaddata any_fixtures.json
+release: python manage.py migrate --noinput
+release: python manage.py collectstatic --no-post-process --noinput
+release: python manage.py loaddata any_fixtures.json
 ```
 
 ## Step 5: Heroku - Add postgres 
