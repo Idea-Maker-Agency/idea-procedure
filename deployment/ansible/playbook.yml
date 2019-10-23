@@ -1,0 +1,16 @@
+---
+
+- name: Refresh server
+  hosts: all
+
+  tasks:
+  - name: git pull
+    shell: git pull
+    args:
+        chdir: /home/django/sites/staging.rewardsinsights.com/src/
+  - name: migrate
+    shell: /home/django/sites/staging.rewardsinsights.com/staging/bin/python manage.py migrate
+    args:
+        chdir: /home/django/sites/staging.rewardsinsights.com/src/
+  - name: restart
+    shell: sudo systemctl restart staging.service
