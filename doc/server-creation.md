@@ -43,19 +43,30 @@ Those hold the various files including systemctl/*.service and *.socket
 
 1. Fix the paths inside the files to match your installation.
 2. `cd /etc/systemd/system`
-3. `sudo ln -s /home/django/sites/<project>/src/deployment/systemctl/staging.service` 
-4. `sudo ln -s /home/django/sites/<project>/src/deployment/systemctl/staging.socket` 
-5. Tell systemctl to read those new files:
-`sudo systemctl daemon-reload`
-6. Tell systemctl to restart those processes if the server is rebooted.
-`sudo systemctl enable staging.socket`
-`sudo systemctl enable staging.socket`
-7. Tell systemctl to start the processes.
-`sudo systemctl start staging.socket`
-`sudo systemctl start staging.service`
+3. `sudo ln -s /home/django/sites/<project>/src/deployment/systemctl/staging.service`   
+4. `sudo ln -s /home/django/sites/<project>/src/deployment/systemctl/staging.socket`   
+5. Tell systemctl to read those new files:  
+`sudo systemctl daemon-reload`   
+6. Tell systemctl to restart those processes if the server is rebooted.  
+`sudo systemctl enable staging.socket`    
+`sudo systemctl enable staging.socket`  
+7. Tell systemctl to start the processes.  
+`sudo systemctl start staging.socket`  
+`sudo systemctl start staging.service`  
 
-You can check /run to see if the .sock file is created
-You can also see if the gunicorn process is running
+You can check /run to see if the .sock file is created  
+You can also see if the gunicorn process is running  
 `sudo systemctl status staging.service`
 
+### Configure nginx 
+1. go into the nginx config directory
+`cd /etc/nginx/sites-enabled`
+2. remove the default and then link to our config in the deployment directory
+`sudo ln -s /home/django/sites/<project>/src/deployment/nginx/nginx-stage.conf`
+3. Edit the file making sure all paths are correct.
+4. Test file
+`sudo nginx -t`
+5. restart nginx
+`sudo service nginx restart`
 
+You website should now be visible!
