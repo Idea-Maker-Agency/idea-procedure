@@ -26,7 +26,7 @@ def helloWorld(request):
   return render(request, 'hello_world.html')
   
 urls:
-  path('/hello_world/', views.helloWorld, name='hello_world')
+  path('/hello-world/', views.helloWorld, name='hello.world')
   
 template:
 hello_world.html
