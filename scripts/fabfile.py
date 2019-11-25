@@ -35,6 +35,7 @@ def django(ctx):
     conn.sudo('usermod -s /bin/bash django')
     print('copy ssh keys')
     conn.sudo('cp -r .ssh/ /home/django/.ssh')
+    conn.sudo('chown -R django:django /home/django/.ssh')
     print('create swap file')
     conn.sudo('fallocate -l 2G /swapfile')
     conn.sudo('chmod 600 /swapfile')
@@ -43,5 +44,8 @@ def django(ctx):
     conn.sudo('cp /etc/fstab /etc/fstab.bak')
     conn.sudo('echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab')
     conn.sudo('swapon --show')
+    print('set up sites directory')
+    conn.sudo('mkdir /home/django/sites')
+    conn.sudo('chown -R django:django /home/django/sites/')
 
 
