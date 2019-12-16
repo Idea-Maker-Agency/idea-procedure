@@ -11,7 +11,7 @@ from fabric import task, Connection
 
 @task
 def doit(ctx, ip, keypath):
-    ctx.user = 'root'
+    ctx.user = 'Tom'
     ctx.host = ip
     ctx.connect_kwargs.key_filename = ''.format(keypath)
 
@@ -33,6 +33,11 @@ def django(ctx):
     conn.sudo('useradd -m django')
     print('********************** usermod -s /bin/bash django **********************')
     conn.sudo('usermod -s /bin/bash django')
+    print('********************* add sudo privileges **************************')
+    conn.sudo('echo "django ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers')
+    print('********************** set vi as editor ********************************')
+    conn.sudo('echo "export EDITOR = 'vi'" >> ~/.bashrc')
+    conn.sudo('echo "export VISUAL = 'vi'" >> ~/.bashrc')
     print('*************************** copy ssh keys ****************************')
     conn.sudo('cp -r .ssh/ /home/django/.ssh')
     conn.sudo('chown -R django:django /home/django/.ssh')
@@ -45,7 +50,7 @@ def django(ctx):
     conn.sudo('echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab')
     conn.sudo('swapon --show')
     print('***************************set up sites directory ****************************')
-    conn.sudo('mkdir /home/django/sites')
-    conn.sudo('chown -R django:django /home/django/sites/')
+    conn.sudo('mkdir -p /home/django/sites/{}/logs/'.format(mysite))
+    conn.sudo('chown -R django:django /home/django/sites/{}/logs/')
 
 
