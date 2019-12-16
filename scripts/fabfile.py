@@ -33,11 +33,14 @@ def django(ctx):
     conn.sudo('useradd -m django')
     print('********************** usermod -s /bin/bash django **********************')
     conn.sudo('usermod -s /bin/bash django')
+
+@task
+def django2(ctx):
     print('********************* add sudo privileges **************************')
-    conn.sudo('echo "django ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers')
+    conn.sudo('echo "django ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers')
     print('********************** set vi as editor ********************************')
-    conn.sudo('echo "export EDITOR = 'vi'" >> ~/.bashrc')
-    conn.sudo('echo "export VISUAL = 'vi'" >> ~/.bashrc')
+    conn.sudo('echo "export EDITOR = 'vi'" | sudo tee -a ~/.bashrc')
+    conn.sudo('echo "export VISUAL = 'vi'" | sudo tee -a ~/.bashrc')
     print('*************************** copy ssh keys ****************************')
     conn.sudo('cp -r .ssh/ /home/django/.ssh')
     conn.sudo('chown -R django:django /home/django/.ssh')
