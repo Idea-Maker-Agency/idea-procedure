@@ -11,7 +11,7 @@ from fabric import task, Connection
 
 @task
 def doit(ctx, ip, keypath):
-    ctx.user = 'Tom'
+    ctx.user = 'root'
     ctx.host = ip
     ctx.connect_kwargs.key_filename = ''.format(keypath)
 
@@ -33,17 +33,18 @@ def django(ctx):
     conn.sudo('useradd -m django')
     print('********************** usermod -s /bin/bash django **********************')
     conn.sudo('usermod -s /bin/bash django')
-
-@task
-def django2(ctx):
     print('********************* add sudo privileges **************************')
     conn.sudo('echo "django ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers')
-    print('********************** set vi as editor ********************************')
-    conn.sudo('echo "export EDITOR = 'vi'" | sudo tee -a ~/.bashrc')
-    conn.sudo('echo "export VISUAL = 'vi'" | sudo tee -a ~/.bashrc')
     print('*************************** copy ssh keys ****************************')
     conn.sudo('cp -r .ssh/ /home/django/.ssh')
     conn.sudo('chown -R django:django /home/django/.ssh')
+
+@task
+def django2(ctx):
+    conn = Connection(ctx.host, ctx.user, connect_kwargs=ctx.connect_kwargs)
+    #print('********************** set vi as editor ********************************')
+    #conn.sudo('echo "export EDITOR = 'vi'" | sudo tee -a ~/.bashrc')
+    #conn.sudo('echo "export VISUAL = 'vi'" | sudo tee -a ~/.bashrc')
     print('*************************** create swap file ****************************')
     conn.sudo('fallocate -l 2G /swapfile')
     conn.sudo('chmod 600 /swapfile')
@@ -53,7 +54,7 @@ def django2(ctx):
     conn.sudo('echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab')
     conn.sudo('swapon --show')
     print('***************************set up sites directory ****************************')
-    conn.sudo('mkdir -p /home/django/sites/{}/logs/'.format(mysite))
-    conn.sudo('chown -R django:django /home/django/sites/{}/logs/')
+    #conn.sudo('mkdir -p /home/django/sites/{}/logs/'.format(mysite))
+    #conn.sudo('chown -R django:django /home/django/sites/{}/logs/')
 
 
