@@ -58,3 +58,18 @@ def django2(ctx):
     #conn.sudo('chown -R django:django /home/django/sites/{}/logs/')
 
 
+@task
+def gitsetup(ctx, host, url, repo, virtualenvdir, keypath):
+    ctx.user = 'django'
+    ctx.host = host
+    ctx.connect_kwargs.key_filename = ''.format(keypath)
+
+    conn = Connection(ctx.host, ctx.user, connect_kwargs=ctx.connect_kwargs)
+    print('**** make dir ****')
+    conn.run('mkdir -p sites/{}/logs'.format(url))
+    print('*** git clone ***')
+    with conn.cd('/home/django/sites/{}'.format(url)):
+        conn.run('git clone git@github.com:tkwon/{} src'.format(repo))
+        conn.run('virtualenv {} --python=python3'.format(virtualenvdir))
+        conn.run('{}/bin/pip3 install pip-tools'.format(virtualenvdir))
+        conn.run('pip-sync /home/django/sites/{}/src/backend/requirements/{}.txt'.format(url, virtualenvdir))
