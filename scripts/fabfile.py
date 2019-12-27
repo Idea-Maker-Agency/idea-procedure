@@ -73,3 +73,18 @@ def gitsetup(ctx, host, url, repo, virtualenvdir, keypath):
         conn.run('virtualenv {} --python=python3'.format(virtualenvdir))
         conn.run('{}/bin/pip3 install pip-tools'.format(virtualenvdir))
         conn.run('pip-sync /home/django/sites/{}/src/backend/requirements/{}.txt'.format(url, virtualenvdir))
+    print('set up deployment')
+    with conn.cd('/etc/nginx/sites-enabled/'):
+        conn.sudo('rm default')
+        conn.sudo('ln -sf /home/django/sites/{}/src/deployment/nginx/dev.nginx.conf'.format(url))
+        conn.sudo('ln -sf /home/django/sites/{}/src/deployment/nginx/staging.nginx.conf'.format(url))
+        conn.sudo('ln -sf /home/django/sites/{}/src/deployment/nginx/prod.nginx.conf'.format(url))
+    with conn.cd('/etc/systemd/system'):
+        conn.sudo('ln -sf /home/django/sites/{}/src/deployment/systemctl/dev.service'.format(url))
+        conn.sudo('ln -sf /home/django/sites/{}/src/deployment/systemctl/dev.socket'.format(url))
+        conn.sudo('ln -sf /home/django/sites/{}/src/deployment/systemctl/staging.service'.format(url))
+        conn.sudo('ln -sf /home/django/sites/{}/src/deployment/systemctl/staging.socket'.format(url))
+        conn.sudo('ln -sf /home/django/sites/{}/src/deployment/systemctl/production.service'.format(url))
+        conn.sudo('ln -sf /home/django/sites/{}/src/deployment/systemctl/production.service'.format(url))
+
+
