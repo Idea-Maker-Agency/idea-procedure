@@ -38,10 +38,6 @@ def django(ctx):
     print('*************************** copy ssh keys ****************************')
     conn.sudo('cp -r .ssh/ /home/django/.ssh')
     conn.sudo('chown -R django:django /home/django/.ssh')
-
-@task
-def django2(ctx):
-    conn = Connection(ctx.host, ctx.user, connect_kwargs=ctx.connect_kwargs)
     #print('********************** set vi as editor ********************************')
     #conn.sudo('echo "export EDITOR = 'vi'" | sudo tee -a ~/.bashrc')
     #conn.sudo('echo "export VISUAL = 'vi'" | sudo tee -a ~/.bashrc')
