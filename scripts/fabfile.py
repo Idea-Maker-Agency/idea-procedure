@@ -11,7 +11,7 @@ from fabric import task, Connection
 
 @task
 def doit(ctx, ip, keypath):
-    ctx.user = 'root'
+    ctx.user = 'django'
     ctx.host = ip
     ctx.connect_kwargs.key_filename = ''.format(keypath)
 
