@@ -11,7 +11,7 @@ from fabric import task, Connection
 
 @task
 def doit(ctx, ip, keypath):
-    ctx.user = 'django'
+    ctx.user = 'root'
     ctx.host = ip
     ctx.connect_kwargs.key_filename = ''.format(keypath)
 
@@ -49,28 +49,35 @@ def django(ctx):
     conn.sudo('cp /etc/fstab /etc/fstab.bak')
     conn.sudo('echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab')
     conn.sudo('swapon --show')
-    print('***************************set up sites directory ****************************')
-    #conn.sudo('mkdir -p /home/django/sites/{}/logs/'.format(mysite))
-    #conn.sudo('chown -R django:django /home/django/sites/{}/logs/')
+
 
 
 @task
-def gitsetup(ctx, host, url, repo, virtualenvdir, keypath):
-    ctx.user = 'django'
-    ctx.host = host
-    ctx.connect_kwargs.key_filename = ''.format(keypath)
+def gitsetup(ctx, url, repo, virtualenvdir):
+    # url example: 'dev.tetraoutcomes.com'
+    # repo example: 'tetra.git'
+    # virtualenv example: 'dev')
 
     conn = Connection(ctx.host, ctx.user, connect_kwargs=ctx.connect_kwargs)
-    print('**** make dir ****')
-    conn.run('mkdir -p sites/{}/logs'.format(url))
+    print('***************************set up sites directory ****************************')
+    conn.sudo('mkdir -p /home/django/sites/{}/logs/'.format(url))
+    conn.sudo('chown -R django:django /home/django/sites')
     print('*** git clone ***')
     with conn.cd('/home/django/sites/{}'.format(url)):
-        conn.run('git clone git@github.com:tkwon/{} src'.format(repo))
+        #conn.run('git clone git@github.com:tkwon/{} src'.format(repo))
         conn.run('virtualenv {} --python=python3'.format(virtualenvdir))
         conn.run('{}/bin/pip3 install pip-tools'.format(virtualenvdir))
-        conn.run('pip-sync /home/django/sites/{}/src/backend/requirements/{}.txt'.format(url, virtualenvdir))
+        #conn.run('pip-sync /home/django/sites/{}/src/backend/requirements/{}.txt'.format(url, virtualenvdir))
+
+@task
+def deploy(ctx, url):
+    conn = Connection(ctx.host, ctx.user, connect_kwargs=ctx.connect_kwargs)
+
     print('set up deployment')
-    with conn.cd('/etc/nginx/sites-enabled/'):
+    with conn.sudo('cd /etc/nginx/sites-enabled/'):
+        print('hello')
+
+'''        
         conn.sudo('rm default')
         conn.sudo('ln -sf /home/django/sites/{}/src/deployment/nginx/dev.nginx.conf'.format(url))
         conn.sudo('ln -sf /home/django/sites/{}/src/deployment/nginx/staging.nginx.conf'.format(url))
@@ -83,4 +90,4 @@ def gitsetup(ctx, host, url, repo, virtualenvdir, keypath):
         conn.sudo('ln -sf /home/django/sites/{}/src/deployment/systemctl/production.service'.format(url))
         conn.sudo('ln -sf /home/django/sites/{}/src/deployment/systemctl/production.service'.format(url))
 
-
+'''
