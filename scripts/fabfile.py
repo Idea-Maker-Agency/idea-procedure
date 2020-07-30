@@ -11,7 +11,7 @@ from fabric import task, Connection
 
 @task
 def doit(ctx, ip, keypath):
-    ctx.user = 'root'
+    ctx.user = 'django'
     ctx.host = ip
     ctx.connect_kwargs.key_filename = ''.format(keypath)
 
@@ -91,3 +91,13 @@ def deploy(ctx, url):
         conn.sudo('ln -sf /home/django/sites/{}/src/deployment/systemctl/production.service'.format(url))
 
 '''
+
+@task
+def wordpress(ctx):
+    conn = Connection(ctx.host, ctx.user, connect_kwargs=ctx.connect_kwargs)
+    print('*************************** apt-get update ****************************')
+    conn.sudo('DEBIAN_FRONTEND=noninteractive apt-get update -y', pty=True)
+    print('*************************** apt-get upgrade ****************************')
+    conn.sudo('DEBIAN_FRONTEND=noninteractive apt-get upgrade -y', pty=True)
+    print('********* apt-get install mysql -y ******')
+    conn.sudo('apt-get install curl mysql-server php libapache2-mod-php php-mysql php-cli -y', pty=True)
