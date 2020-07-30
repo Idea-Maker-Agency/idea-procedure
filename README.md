@@ -41,5 +41,3 @@ This will create the list of requirements. `base.txt`
 Afterwards install/update: `pip-sync base.txt`  
 
 ## Deployment
-We typically deploy on heroku for staging. Instructions can be found here:  
-[https://github.com/tkwon/idea-procedure/blob/master/doc/heroku.md](https://github.com/tkwon/idea-procedure/blob/master/doc/heroku.md)
