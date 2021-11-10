@@ -33,9 +33,10 @@ You should now have `/home/django/sites/<project>src`
 ### prepare the virtual environment
 in the project directory run:
 
-`virtualenv env --python=python3`
+`virtualenv dev --python=python3`
 
-Note: I typically name the virtualenv directory "prod" or "stage" to indicate what its used for.
+Note: I typically name the virtualenv directory "dev" or "staging" to indicate what its used for.  
+Production names depend on client. It can be "www" or "app" etc. Check with project lead.  
 
 ### Prepare the systemctl files
 in our project home directory there is a folder called "deployment".
@@ -68,5 +69,9 @@ You can also see if the gunicorn process is running
 `sudo nginx -t`
 5. restart nginx
 `sudo service nginx restart`
+   
+### Run certbot
+1. `sudo certbot --nginx`  
+Do not let certbot add a redirect.  
 
 You website should now be visible!
